@@ -35,6 +35,32 @@ class BiDirectionalPriorityQueue {
     this._items.splice(idx, 1);
     return removed.item;
   }
+
+  peek(mode) {
+    if (this._items.length === 0) return null;
+
+    let idx = 0;
+
+    if (mode === 'highest') {
+      for (let i = 1; i < this._items.length; i++) {
+        if (this._items[i].priority > this._items[idx].priority) {
+          idx = i;
+        }
+      }
+    } else if (mode === 'lowest') {
+      for (let i = 1; i < this._items.length; i++) {
+        if (this._items[i].priority < this._items[idx].priority) {
+          idx = i;
+        }
+      }
+    } else if (mode === 'oldest') {
+      return this._items[0].item;
+    } else if (mode === 'newest') {
+      return this._items[this._items.length - 1].item;
+    }
+
+    return this._items[idx].item;
+  }
 }
 
 const queue = new BiDirectionalPriorityQueue();
