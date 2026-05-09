@@ -29,6 +29,10 @@ class BiDirectionalPriorityQueue {
           idx = i;
         }
       }
+    } else if (mode === 'oldest') {
+      idx = 0;
+    } else if (mode === 'newest') {
+      idx = this._items.length - 1;
     }
 
     const removed = this._items[idx];
