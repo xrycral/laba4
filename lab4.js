@@ -61,3 +61,28 @@ class BiDirectionalPriorityQueue {
 }
 
 export { BiDirectionalPriorityQueue };
+
+const queue = new BiDirectionalPriorityQueue();
+
+queue.enqueue('low task', 1);
+queue.enqueue('high task', 10);
+queue.enqueue('mid task', 5);
+queue.enqueue('urgent task', 8);
+
+console.log('--- peek ---');
+console.log('highest:', queue.peek('highest'));
+console.log('lowest:', queue.peek('lowest'));
+console.log('oldest:', queue.peek('oldest'));
+console.log('newest:', queue.peek('newest'));
+
+console.log('\n--- dequeue highest ---');
+console.log(queue.dequeue('highest'));
+console.log(queue.dequeue('highest'));
+
+console.log('\n--- dequeue oldest/newest ---');
+const q2 = new BiDirectionalPriorityQueue();
+q2.enqueue('first', 5);
+q2.enqueue('second', 5);
+q2.enqueue('third', 5);
+console.log('oldest:', q2.dequeue('oldest'));
+console.log('newest:', q2.dequeue('newest'));
