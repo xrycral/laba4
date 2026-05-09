@@ -5,34 +5,38 @@ class BiDirectionalPriorityQueue {
   }
 
   enqueue(item, priority) {
-    this._items.push({
-      item,
-      priority,
-      order: this._counter++,
-    });
+    const entry = { item, priority, order: this._counter++ };
+
+    let i = 0;
+    while (i < this._items.length && this._items[i].priority <= priority) {
+      i++;
+    }
+    this._items.splice(i, 0, entry);
   }
 
   dequeue(mode) {
     if (this._items.length === 0) return null;
 
-    let idx = 0;
+    let idx;
 
     if (mode === 'highest') {
-      for (let i = 1; i < this._items.length; i++) {
-        if (this._items[i].priority > this._items[idx].priority) {
-          idx = i;
-        }
-      }
+      idx = this._items.length - 1;
     } else if (mode === 'lowest') {
-      for (let i = 1; i < this._items.length; i++) {
-        if (this._items[i].priority < this._items[idx].priority) {
-          idx = i;
-        }
-      }
+      idx = 0;
     } else if (mode === 'oldest') {
       idx = 0;
+      for (let i = 1; i < this._items.length; i++) {
+        if (this._items[i].order < this._items[idx].order) {
+          idx = i;
+        }
+      }
     } else if (mode === 'newest') {
-      idx = this._items.length - 1;
+      idx = 0;
+      for (let i = 1; i < this._items.length; i++) {
+        if (this._items[i].order > this._items[idx].order) {
+          idx = i;
+        }
+      }
     }
 
     const removed = this._items[idx];
@@ -43,36 +47,17 @@ class BiDirectionalPriorityQueue {
   peek(mode) {
     if (this._items.length === 0) return null;
 
-    let idx = 0;
-
-    if (mode === 'highest') {
-      for (let i = 1; i < this._items.length; i++) {
-        if (this._items[i].priority > this._items[idx].priority) {
-          idx = i;
-        }
-      }
-    } else if (mode === 'lowest') {
-      for (let i = 1; i < this._items.length; i++) {
-        if (this._items[i].priority < this._items[idx].priority) {
-          idx = i;
-        }
-      }
-    } else if (mode === 'oldest') {
-      return this._items[0].item;
-    } else if (mode === 'newest') {
-      return this._items[this._items.length - 1].item;
+    if (mode === 'highest') return this._items[this._items.length - 1].item;
+    if (mode === 'lowest') return this._items[0].item;
+    if (mode === 'oldest') {
+      return this._items.reduce((a, b) => (a.order < b.order ? a : b)).item;
+    }
+    if (mode === 'newest') {
+      return this._items.reduce((a, b) => (a.order > b.order ? a : b)).item;
     }
 
-    return this._items[idx].item;
+    return null;
   }
 }
 
-const queue = new BiDirectionalPriorityQueue();
-
-queue.enqueue('low task', 1);
-queue.enqueue('high task', 10);
-queue.enqueue('mid task', 5);
-
-console.log('--- dequeue highest ---');
-console.log(queue.dequeue('highest'));
-console.log(queue.dequeue('highest'));
+export { BiDirectionalPriorityQueue };
