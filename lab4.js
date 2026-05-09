@@ -60,8 +60,6 @@ class BiDirectionalPriorityQueue {
   }
 }
 
-export { BiDirectionalPriorityQueue };
-
 const queue = new BiDirectionalPriorityQueue();
 
 queue.enqueue('low task', 1);
@@ -86,3 +84,6 @@ q2.enqueue('second', 5);
 q2.enqueue('third', 5);
 console.log('oldest:', q2.dequeue('oldest'));
 console.log('newest:', q2.dequeue('newest'));
+
+
+export { BiDirectionalPriorityQueue };
